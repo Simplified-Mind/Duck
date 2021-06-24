@@ -1,4 +1,7 @@
 from fastapi import APIRouter
+
+from backend.app.api.endpoints import access
+
 from backend.app.api.endpoints.commodity.environmental import fundamental as environmental_fundamental
 from backend.app.api.endpoints.commodity.gas import fundamental as gas_fundamental
 from backend.app.api.endpoints.commodity.lng import fundamental as lng_fundamental
@@ -7,6 +10,8 @@ from backend.app.api.endpoints.commodity.power import fundamental as power_funda
 
 api_router = APIRouter()
 
+# Access
+api_router.include_router(access.router, tags=['User Permission'])
 
 # ------------------ Commodity ------------------
 # Environmental

@@ -1,4 +1,6 @@
+import os
 import secrets
+from base64 import b64encode
 from typing import Optional, List
 from dataclasses import dataclass
 from pydantic import AnyHttpUrl, BaseSettings
@@ -32,8 +34,28 @@ class Base(BaseSettings):
         {
             'name': 'Task',
             'description': '[Background Task](https://fastapi.tiangolo.com/tutorial/background-tasks/)',
+        },
+        {
+            'name': 'Environmental',
+            'description': 'Environmental'
+        },
+        {
+            'name': 'Gas',
+            'description': 'Gas'
+        },
+        {
+            'name': 'LNG',
+            'description': 'LNG'
+        },
+        {
+            'name': 'Power',
+            'description': 'Power'
         }
     ]
+
+    ANONYMOUS: Optional[str] = b64encode(
+        open(os.path.join(os.path.dirname(os.path.dirname(__file__)), 'static/anonymous.jpg'), 'rb').read()
+    )
 
 
 class Development(Base):
