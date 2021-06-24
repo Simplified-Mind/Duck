@@ -1,4 +1,5 @@
 import os
+import uvicorn
 from fastapi import FastAPI
 from fastapi.staticfiles import StaticFiles
 from fastapi.openapi.docs import (
@@ -17,7 +18,7 @@ app = FastAPI(
     title=config.PROJECT_NAME,
     description=config.DESCRIPTION,
     version=config.VERSION,
-    openapi_url=f'{config.API_VERSION}/openapi.json',
+    openapi_url=f'{config.BASE_API}/openapi.json',
     openapi_tags=config.OPENAPI_TAGS,
     docs_url=None,
     redoc_url=None
@@ -60,3 +61,7 @@ async def redoc_html():
 
 
 app.include_router(api_router, prefix=config.BASE_API)
+
+
+if __name__ == '__main__':
+    uvicorn.run('main:app', host=config.HOST, port=config.PORT, debug=config.ENV == 'dev')

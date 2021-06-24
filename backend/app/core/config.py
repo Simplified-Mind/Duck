@@ -6,14 +6,14 @@ from pydantic import AnyHttpUrl, BaseSettings
 
 class Base(BaseSettings):
     PROJECT_NAME: Optional[str] = 'Analytics'
+    HOST: Optional[str] = '0.0.0.0'
+    PORT: Optional[int] = 8888
     VERSION: Optional[str] = '0.0.1'
-
     FAVICON: Optional[str] = '/static/favicon.ico'
-    DESCRIPTION: Optional[str] = '''### Summary
-    The API facilitates all required front end configurations.
+    DESCRIPTION: Optional[str] = '''### Overview
+    The API facilitates all front end configurations.
     ©Analytics Team
     '''
-
     ALGORITHM: Optional[str] = 'HS256'
     SECRET_KEY: Optional[str] = secrets.token_urlsafe(256)
 
@@ -31,14 +31,13 @@ class Base(BaseSettings):
         },
         {
             'name': 'Task',
-            'description': 'Background Task',
+            'description': '[Background Task](https://fastapi.tiangolo.com/tutorial/background-tasks/)',
         }
     ]
 
 
 class Development(Base):
     BASE_API: str = '/dev-api/v1'
-    BACKEND_CORS_ORIGINS: List[AnyHttpUrl] = ['*']
 
 
 class UAT(Base):
