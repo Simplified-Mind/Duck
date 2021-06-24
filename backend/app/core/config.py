@@ -1,5 +1,6 @@
 import os
 import secrets
+from pathlib import Path
 from base64 import b64encode
 from typing import Optional, List
 from dataclasses import dataclass
@@ -54,7 +55,9 @@ class Base(BaseSettings):
     ]
 
     ANONYMOUS: Optional[str] = b64encode(
-        open(os.path.join(os.path.dirname(os.path.dirname(__file__)), 'static/anonymous.jpg'), 'rb').read()
+        open(
+            Path(os.path.dirname(__file__).replace(r'backend\app\core', r'frontend\public\anonymous.jpg')), 'rb'
+        ).read()
     )
 
 

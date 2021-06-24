@@ -1,4 +1,5 @@
 import os
+from pathlib import Path
 import uvicorn
 from fastapi import FastAPI
 from fastapi.staticfiles import StaticFiles
@@ -24,7 +25,11 @@ app = FastAPI(
     redoc_url=None
 )
 
-app.mount('/static', StaticFiles(directory=os.path.join(os.path.dirname(__file__), 'static')), name='static')
+app.mount(
+    '/static',
+    StaticFiles(directory=Path(os.path.dirname(__file__).replace(r'backend\app', r'frontend\public'))),
+    name='static'
+)
 
 if config.BACKEND_CORS_ORIGINS:
     app.add_middleware(
