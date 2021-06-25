@@ -1,10 +1,11 @@
-import os
 import secrets
 from pathlib import Path
 from base64 import b64encode
 from typing import Optional, List
 from dataclasses import dataclass
 from pydantic import AnyHttpUrl, BaseSettings
+
+FRONTEND_DIR = str(Path(__file__).parent).replace(r'backend\app\core', r'frontend')
 
 
 class Base(BaseSettings):
@@ -54,11 +55,29 @@ class Base(BaseSettings):
         }
     ]
 
-    ANONYMOUS: Optional[str] = b64encode(
-        open(
-            Path(os.path.dirname(__file__).replace(r'backend\app\core', r'frontend\public\anonymous.jpg')), 'rb'
-        ).read()
-    )
+    ANONYMOUS: Optional[str] = b64encode(open(Path(rf'{FRONTEND_DIR}\public\anonymous.jpg'), 'rb').read())
+
+    FRONTEND = {
+        'home': '/',
+        'logo': '',
+        'favicon': '',
+        'authentication': True,
+        'internationalization': True,
+        'api': {
+            'environmental': {
+                'fundamental': {}
+            },
+            'gas': {
+                'fundamental': {}
+            },
+            'lng': {
+                'fundamental': {}
+            },
+            'power': {
+                'fundamental': {}
+            }
+        }
+    }
 
 
 class Development(Base):

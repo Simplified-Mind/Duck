@@ -1,6 +1,5 @@
-import os
-from pathlib import Path
 import uvicorn
+from pathlib import Path
 from fastapi import FastAPI
 from fastapi.staticfiles import StaticFiles
 from fastapi.openapi.docs import (
@@ -11,7 +10,7 @@ from fastapi.openapi.docs import (
 
 from starlette.middleware.cors import CORSMiddleware
 
-from backend.app.core.config import config
+from backend.app.core.config import config, FRONTEND_DIR
 from backend.app.api.routers import api_router
 
 
@@ -25,11 +24,7 @@ app = FastAPI(
     redoc_url=None
 )
 
-app.mount(
-    '/static',
-    StaticFiles(directory=Path(os.path.dirname(__file__).replace(r'backend\app', r'frontend\public'))),
-    name='static'
-)
+app.mount('/static', StaticFiles(directory=Path(rf'{FRONTEND_DIR}\public')), name='static')
 
 if config.BACKEND_CORS_ORIGINS:
     app.add_middleware(
