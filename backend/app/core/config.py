@@ -57,28 +57,6 @@ class Base(BaseSettings):
 
     ANONYMOUS: Optional[str] = b64encode(open(Path(rf'{FRONTEND_DIR}\public\anonymous.jpg'), 'rb').read())
 
-    FRONTEND = {
-        'home': '/',
-        'logo': '',
-        'favicon': '',
-        'authentication': True,
-        'internationalization': True,
-        'api': {
-            'environmental': {
-                'fundamental': {}
-            },
-            'gas': {
-                'fundamental': {}
-            },
-            'lng': {
-                'fundamental': {}
-            },
-            'power': {
-                'fundamental': {}
-            }
-        }
-    }
-
 
 class Development(Base):
     BASE_API: str = '/dev-api/v1'
@@ -103,6 +81,35 @@ class Config:
             'prod': Production()
         }
         self.__dict__.update(**options[self.ENV].__dict__)
+        self.FRONTEND = {
+            'home': '/',
+            'logo': '',
+            'favicon': '',
+            'authentication': True,
+            'internationalization': True,
+            'api': {
+                'access': {
+                    'login': {
+                        'method': 'post',
+                        'url': f'{self.BASE_API}/login'
+                    }
+                },
+                'environmental': {
+                    'fundamental': {
+                        'get'
+                    }
+                },
+                'gas': {
+                    'fundamental': {}
+                },
+                'lng': {
+                    'fundamental': {}
+                },
+                'power': {
+                    'fundamental': {}
+                }
+            }
+        }
 
 
 config = Config()
