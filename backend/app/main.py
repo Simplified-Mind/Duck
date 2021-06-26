@@ -24,7 +24,7 @@ app = FastAPI(
     redoc_url=None
 )
 
-app.mount('/static', StaticFiles(directory=Path(rf'{FRONTEND_DIR}\public')), name='static')
+app.mount('/static', StaticFiles(directory=Path(rf'{FRONTEND_DIR}\public\static\images')), name='static')
 
 if config.BACKEND_CORS_ORIGINS:
     app.add_middleware(

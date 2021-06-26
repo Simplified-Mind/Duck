@@ -4,9 +4,10 @@
 
       <div class="title-container">
         <img
-          src="../../../public/logo.png"
-          width="20%"
-          height="20%"
+          class="img"
+          src="../../../public/static/images/logo.png"
+          width="30%"
+          height="30%"
         >
         <lang-select class="set-language" />
       </div>
@@ -137,6 +138,12 @@ $cursor: #fff;
 
 /* reset element-ui css */
 .login-container {
+  min-height: 100%;
+  width: 100%;
+  overflow: hidden;
+  background-image: url("../../../public/static/images/bg.jpg");
+  z-index: -9999 !important;
+  background-size: cover !important;
   .el-input {
     display: inline-block;
     height: 47px;
@@ -210,6 +217,11 @@ $light_gray:#eee;
 
   .title-container {
     position: relative;
+    .img{
+      display: block;
+      margin-left: auto;
+      margin-right: auto;
+    }
 
     .title {
       font-size: 26px;
@@ -220,7 +232,7 @@ $light_gray:#eee;
     }
 
     .set-language {
-      color: #fff;
+      color: #ff0000;
       position: absolute;
       top: 3px;
       font-size: 18px;

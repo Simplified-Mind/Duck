@@ -55,7 +55,7 @@ class Base(BaseSettings):
         }
     ]
 
-    ANONYMOUS: Optional[str] = b64encode(open(Path(rf'{FRONTEND_DIR}\public\anonymous.jpg'), 'rb').read())
+    ANONYMOUS: Optional[str] = b64encode(open(Path(rf'{FRONTEND_DIR}\public\static\images\anonymous.jpg'), 'rb').read())
 
 
 class Development(Base):
