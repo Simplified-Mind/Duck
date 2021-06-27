@@ -10,7 +10,7 @@ from fastapi.openapi.docs import (
 
 from starlette.middleware.cors import CORSMiddleware
 
-from backend.app.core.config import config, FRONTEND_DIR
+from backend.app.core.config import config, STATIC
 from backend.app.api.routers import api_router
 
 
@@ -24,7 +24,7 @@ app = FastAPI(
     redoc_url=None
 )
 
-app.mount('/static', StaticFiles(directory=Path(rf'{FRONTEND_DIR}\public\static\images')), name='static')
+app.mount('/static', StaticFiles(directory=Path(STATIC)), name='static')
 
 if config.BACKEND_CORS_ORIGINS:
     app.add_middleware(

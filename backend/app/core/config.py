@@ -5,7 +5,7 @@ from typing import Optional, List
 from dataclasses import dataclass
 from pydantic import AnyHttpUrl, BaseSettings
 
-FRONTEND_DIR = str(Path(__file__).parent).replace(r'backend\app\core', r'frontend')
+STATIC = str(Path(__file__).parent).replace(r'backend\app\core', r'frontend\public\static\images')
 
 
 class Base(BaseSettings):
@@ -55,7 +55,7 @@ class Base(BaseSettings):
         }
     ]
 
-    ANONYMOUS: Optional[str] = b64encode(open(Path(rf'{FRONTEND_DIR}\public\static\images\anonymous.jpg'), 'rb').read())
+    ANONYMOUS: Optional[str] = b64encode(open(Path(rf'{STATIC}\anonymous.jpg'), 'rb').read())
 
 
 class Development(Base):
@@ -83,8 +83,9 @@ class Config:
         self.__dict__.update(**options[self.ENV].__dict__)
         self.FRONTEND = {
             'home': '/',
-            'logo': '',
-            'favicon': '',
+            'logo': rf'{STATIC}\logo.png',
+            'favicon': rf'{STATIC}\favicon.ico',
+            'background': rf'{STATIC}\bg.jpeg',
             'authentication': True,
             'internationalization': True,
             'api': {

@@ -141,7 +141,7 @@ $cursor: #fff;
   min-height: 100%;
   width: 100%;
   overflow: hidden;
-  background-image: url("../../../public/static/images/bg.jpg");
+  background-image: url("../../../public/static/images/bg.jpeg");
   z-index: -9999 !important;
   background-size: cover !important;
   .el-input {
@@ -232,7 +232,7 @@ $light_gray:#eee;
     }
 
     .set-language {
-      color: #ff0000;
+      color: #fff;
       position: absolute;
       top: 3px;
       font-size: 18px;
