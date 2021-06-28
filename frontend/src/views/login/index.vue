@@ -121,27 +121,21 @@ export default {
 </script>
 
 <style lang="scss">
-/* 修复input 背景不协调 和光标变色 */
-/* Detail see https://github.com/PanJiaChen/vue-element-admin/pull/927 */
 
 $bg:#283443;
 $light_gray:#fff;
 $cursor: #fff;
+$input_bg: #f0f2f5;
+$input_cursor:#2d3a4b;
 
 @supports (-webkit-mask: none) and (not (cater-color: $cursor)) {
   .login-container .el-input input {
-    color: $cursor;
+    color: $bg;
   }
 }
 
 /* reset element-ui css */
 .login-container {
-  min-height: 100%;
-  width: 100%;
-  overflow: hidden;
-  background-image: url("../../../public/static/images/bg.jpeg");
-  z-index: -9999 !important;
-  background-size: cover !important;
   .el-input {
     display: inline-block;
     height: 47px;
@@ -153,21 +147,23 @@ $cursor: #fff;
       -webkit-appearance: none;
       border-radius: 0px;
       padding: 12px 5px 12px 15px;
-      color: $light_gray;
+      color: $bg;
       height: 47px;
-      caret-color: $cursor;
+      caret-color: $bg;
+      font-size: 16px;
 
       &:-webkit-autofill {
-        box-shadow: 0 0 0px 1000px $bg inset !important;
-        -webkit-text-fill-color: $cursor !important;
+        -webkit-box-shadow: 0 0 0px 1000px $input_bg inset !important;
+        box-shadow: 0 0 0px 1000px $input_bg inset !important;
+        -webkit-text-fill-color: $input_cursor !important;
       }
     }
   }
 
   .el-form-item {
     border: 1px solid rgba(255, 255, 255, 0.1);
-    background: rgba(0, 0, 0, 0.1);
-    border-radius: 5px;
+    background: #f0f2f5;
+    border-radius: 8px;
     color: #454545;
   }
 }
@@ -175,24 +171,45 @@ $cursor: #fff;
 
 <style lang="scss" scoped>
 $bg:#2d3a4b;
-$input_bg:f0f2f5;
-$dark_gray:#889aa4;
+$dark_gray:#2d3a4b;
 $light_gray:#eee;
 $primary: #0065BD;
+$input_bg: #f0f2f5;
+
+@keyframes pulse {
+  from {
+    background-color: rgba(0, 0, 0, 0.3);
+  }
+  to {
+    background-color: rgba(0, 0, 0, 0);
+  }
+}
 
 .login-container {
   min-height: 100%;
   width: 100%;
-  background-color: $bg;
   overflow: hidden;
+  background-image: url("../../../public/static/images/bg.jpeg");
+  z-index: -9000 !important;
+  background-size: cover !important;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-position-y: 70%;
+  background-blend-mode: soft-light;
+  -webkit-animation: pulse 8s ease-in-out infinite alternate;
+  animation: pulse 4s ease-in-out infinite alternate;
 
   .login-form {
     position: relative;
-    width: 520px;
+    width: 400px;
     max-width: 100%;
-    padding: 160px 35px 0;
-    margin: 0 auto;
+    padding: 20px 40px 40px 40px;
+    margin: 10% auto 0 auto;
     overflow: hidden;
+    background: #fff;
+    border-radius: 3px;
+    -webkit-box-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+    box-shadow: 1px 1px 2px rgba(0,0,0,0.5);
   }
 
   .tips {
@@ -209,7 +226,7 @@ $primary: #0065BD;
 
   .svg-container {
     padding: 6px 5px 6px 15px;
-    color: $dark_gray;
+    color: $bg;
     vertical-align: middle;
     width: 30px;
     display: inline-block;
@@ -217,6 +234,7 @@ $primary: #0065BD;
 
   .title-container {
     position: relative;
+
     .logo{
       display: block;
       width: 30%;
@@ -227,14 +245,14 @@ $primary: #0065BD;
 
     .title {
       font-size: 26px;
-      color: $light_gray;
-      margin: 0px auto 40px auto;
+      color: $bg;
+      margin: 0px auto 20px auto;
       text-align: center;
-      font-weight: bold;
+      font-weight: 300;
     }
 
     .set-language {
-      color: #fff;
+      color: #ff0000;
       position: absolute;
       top: 3px;
       font-size: 18px;
@@ -248,9 +266,10 @@ $primary: #0065BD;
     right: 10px;
     top: 7px;
     font-size: 16px;
-    color: $dark_gray;
+    color: $bg;
     cursor: pointer;
     user-select: none;
+
     &:hover {
       color: $primary;
     }
