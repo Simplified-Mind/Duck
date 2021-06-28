@@ -5,7 +5,7 @@
       <div class="title-container">
         <img
           class="logo"
-          src="../../../public/static/images/logo.png"
+          src="../../../public/static/images/logo.svg"
         >
         <lang-select class="set-language" />
       </div>
