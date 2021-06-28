@@ -5,8 +5,6 @@ from typing import Optional, List
 from dataclasses import dataclass
 from pydantic import AnyHttpUrl, BaseSettings
 
-STATIC = str(Path(__file__).parent).replace(r'backend\app\core', r'frontend\public\static\images')
-
 
 class Base(BaseSettings):
     PROJECT_NAME: Optional[str] = 'Analytics'
@@ -55,15 +53,15 @@ class Base(BaseSettings):
         }
     ]
 
-    ANONYMOUS: Optional[str] = b64encode(open(Path(rf'{STATIC}\anonymous.jpg'), 'rb').read())
+    ANONYMOUS: Optional[str] = b64encode(open(rf'{Path(__file__).parent.parent}\static\anonymous.jpg', 'rb').read())
 
 
 class Development(Base):
     BASE_API: str = '/dev-api/v1'
 
 
-class UAT(Base):
-    BASE_API = '/uat-api/v1'
+class Staging(Base):
+    BASE_API = '/stage-api/v1'
 
 
 class Production(Base):
@@ -77,40 +75,11 @@ class Config:
     def __post_init__(self):
         options = {
             'dev': Development(),
-            'uat': UAT(),
+            'staging': Staging(),
             'prod': Production()
         }
         self.__dict__.update(**options[self.ENV].__dict__)
-        self.FRONTEND = {
-            'home': '/',
-            'logo': rf'{STATIC}\logo.png',
-            'favicon': rf'{STATIC}\favicon.ico',
-            'background': rf'{STATIC}\bg.jpeg',
-            'authentication': True,
-            'internationalization': True,
-            'api': {
-                'access': {
-                    'login': {
-                        'method': 'post',
-                        'url': f'{self.BASE_API}/login'
-                    }
-                },
-                'environmental': {
-                    'fundamental': {
-                        'get'
-                    }
-                },
-                'gas': {
-                    'fundamental': {}
-                },
-                'lng': {
-                    'fundamental': {}
-                },
-                'power': {
-                    'fundamental': {}
-                }
-            }
-        }
 
 
 config = Config()
+

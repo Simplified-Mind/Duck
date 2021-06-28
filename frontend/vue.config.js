@@ -6,8 +6,8 @@ function resolve(dir) {
   return path.join(__dirname, dir)
 }
 
-const name = pkg.name || 'vue-element-admin' // page title
-const port = 9527 // dev port
+const name = process.env.VUE_APP_TITLE || pkg.name || 'vue-element-admin' // page title
+const port = process.env.VUE_APP_PORT || 9527 // dev port
 
 // All configuration item explanations can be find in https://cli.vuejs.org/config/
 module.exports = {
