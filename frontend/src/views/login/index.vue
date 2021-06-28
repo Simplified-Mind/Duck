@@ -4,10 +4,8 @@
 
       <div class="title-container">
         <img
-          class="img"
+          class="logo"
           src="../../../public/static/images/logo.png"
-          width="30%"
-          height="30%"
         >
         <lang-select class="set-language" />
       </div>
@@ -177,8 +175,10 @@ $cursor: #fff;
 
 <style lang="scss" scoped>
 $bg:#2d3a4b;
+$input_bg:f0f2f5;
 $dark_gray:#889aa4;
 $light_gray:#eee;
+$primary: #0065BD;
 
 .login-container {
   min-height: 100%;
@@ -217,8 +217,10 @@ $light_gray:#eee;
 
   .title-container {
     position: relative;
-    .img{
+    .logo{
       display: block;
+      width: 30%;
+      height: 30%;
       margin-left: auto;
       margin-right: auto;
     }
@@ -249,18 +251,13 @@ $light_gray:#eee;
     color: $dark_gray;
     cursor: pointer;
     user-select: none;
-  }
-
-  .thirdparty-button {
-    position: absolute;
-    right: 0;
-    bottom: 6px;
-  }
-
-  @media only screen and (max-width: 470px) {
-    .thirdparty-button {
-      display: none;
+    &:hover {
+      color: $primary;
     }
+  }
+
+  .el-button {
+    font-size: 16px;
   }
 }
 </style>
