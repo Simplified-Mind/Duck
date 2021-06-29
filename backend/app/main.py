@@ -10,26 +10,26 @@ from fastapi.openapi.docs import (
 
 from starlette.middleware.cors import CORSMiddleware
 
-from backend.app.core.config import config
+from backend.app.core.config import settings
 from backend.app.api.routers import api_router
 
 
 app = FastAPI(
-    title=config.PROJECT_NAME,
-    description=config.DESCRIPTION,
-    version=config.VERSION,
-    openapi_url=f'{config.BASE_API}/openapi.json',
-    openapi_tags=config.OPENAPI_TAGS,
+    title=settings.PROJECT_NAME,
+    description=settings.DESCRIPTION,
+    version=settings.VERSION,
+    openapi_url=f'{settings.BASE_API}/openapi.json',
+    openapi_tags=settings.OPENAPI_TAGS,
     docs_url=None,
     redoc_url=None
 )
 
 app.mount('/static', StaticFiles(directory=rf'{Path(__file__).parent}\static'), name='static')
 
-if config.BACKEND_CORS_ORIGINS:
+if settings.BACKEND_CORS_ORIGINS:
     app.add_middleware(
         CORSMiddleware,
-        allow_origins=[str(origin) for origin in config.BACKEND_CORS_ORIGINS],
+        allow_origins=[str(origin) for origin in settings.BACKEND_CORS_ORIGINS],
         allow_credentials=True,
         allow_methods=['*'],
         allow_headers=['*'],
@@ -42,7 +42,7 @@ async def swagger_ui_html():
         openapi_url=app.openapi_url,
         title=app.title + ' - Swagger UI',
         oauth2_redirect_url=app.swagger_ui_oauth2_redirect_url,
-        swagger_favicon_url=config.FAVICON,
+        swagger_favicon_url=settings.FAVICON,
     )
 
 
@@ -56,12 +56,12 @@ async def redoc_html():
     return get_redoc_html(
         openapi_url=app.openapi_url,
         title=app.title + ' - ReDoc',
-        redoc_favicon_url=config.FAVICON,
+        redoc_favicon_url=settings.FAVICON,
     )
 
 
-app.include_router(api_router, prefix=config.BASE_API)
+app.include_router(api_router, prefix=settings.BASE_API)
 
 
 if __name__ == '__main__':
-    uvicorn.run('main:app', host=config.HOST, port=config.PORT, debug=config.ENV == 'dev')
+    uvicorn.run('main:app', host=settings.HOST, port=settings.PORT, debug=settings.ENV == 'dev')

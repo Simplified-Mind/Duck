@@ -3,17 +3,17 @@ from fastapi.security import OAuth2PasswordBearer
 from fastapi import Depends, HTTPException, status
 from jose import JWTError, jwt, ExpiredSignatureError
 
-from backend.app.core.config import config
+from backend.app.core.config import settings
 from backend.app.crud.access import get_user_info
 from backend.app.schemas.access import TokenPayload
 
 
-OAUTH_SCHEME = OAuth2PasswordBearer(tokenUrl=f'{config.BASE_API}/login')
+OAUTH_SCHEME = OAuth2PasswordBearer(tokenUrl=f'{settings.BASE_API}/login')
 
 
 async def get_current_user(token: str = Depends(OAUTH_SCHEME)):
     try:
-        payload = jwt.decode(token, config.SECRET_KEY, algorithms=[config.ALGORITHM])
+        payload = jwt.decode(token, settings.SECRET_KEY, algorithms=[settings.ALGORITHM])
         token_payload = TokenPayload(**payload)
     except ExpiredSignatureError:
         raise HTTPException(

@@ -4,7 +4,7 @@ from datetime import timedelta
 from fastapi.security import OAuth2PasswordRequestForm
 from fastapi import status ,APIRouter, Depends, HTTPException
 
-from backend.app.core.config import config
+from backend.app.core.config import settings
 from backend.app.crud.access import authenticate
 from backend.app.api.deps import get_current_user
 from backend.app.schemas.access import User, Token
@@ -25,7 +25,7 @@ def login(form_data: OAuth2PasswordRequestForm = Depends()) -> Any:
             headers={'WWW-Authenticate': 'Bearer'}
         )
     else:
-        expires_delta = timedelta(minutes=config.ACCESS_TOKEN_EXPIRE_MINUTES)
+        expires_delta = timedelta(minutes=settings.ACCESS_TOKEN_EXPIRE_MINUTES)
         return {
             'access_token': create_access_token(subject, expires_delta),
             'token_type': 'bearer'

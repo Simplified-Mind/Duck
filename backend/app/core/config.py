@@ -69,7 +69,7 @@ class Production(Base):
 
 
 @dataclass
-class Config:
+class Settings:
     ENV: Optional[str] = 'dev'
 
     def __post_init__(self):
@@ -81,5 +81,5 @@ class Config:
         self.__dict__.update(**options[self.ENV].__dict__)
 
 
-config = Config()
+settings = Settings()
 

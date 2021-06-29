@@ -8,7 +8,7 @@ from Crypto.Cipher import AES
 from Crypto.PublicKey import RSA
 from base64 import b64encode, b64decode
 
-from backend.app.core.config import config
+from backend.app.core.config import settings
 from backend.app.schemas.access import User
 from backend.app.crud.active_directory import find_user
 
@@ -31,7 +31,7 @@ def get_user_info(name: str) -> User:
         name=name,
         email=meta.userPrincipalName or '',
         display_name=meta.displayName or name,
-        photo=b64encode(meta.thumbnailPhoto if meta.thumbnailPhoto else config.ANONYMOUS.encode('utf-8')),
+        photo=b64encode(meta.thumbnailPhoto if meta.thumbnailPhoto else settings.ANONYMOUS.encode('utf-8')),
         profile=get_user_profile(name)
     )
 
@@ -39,7 +39,7 @@ def get_user_info(name: str) -> User:
 def create_security_pem():
     key = RSA.generate(2048)
     encrypted_key = key.exportKey(
-        passphrase=config.SECRET_KEY,
+        passphrase=settings.SECRET_KEY,
         pkcs=8,
         protection='scryptAndAES128-CBC'
     )
