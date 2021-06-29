@@ -36,3 +36,27 @@ export default {
   }
 }
 </script>
+
+<style lang="scss" scoped>
+.langSelect-container {
+  padding: 8px;
+  display: inline-block;
+  cursor: pointer;
+  width: 36px;
+  height: 36px;
+  transition: 0.2s;
+
+  &:hover {
+    background-color: #001528;
+  }
+
+  .svg-icon {
+    vertical-align: middle;
+    width: 16px;
+    height: 16px;
+    fill: #fff;
+    margin-right: 0 !important;
+    margin-left: 2px;
+  }
+}
+</style>

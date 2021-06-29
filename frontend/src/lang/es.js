@@ -68,6 +68,15 @@ export default {
   navbar: {
     logOut: 'Salir',
     dashboard: 'Panel de control',
+    userProfile: 'Perfil del usuario',
+    github: 'Github',
+    theme: 'Tema',
+    size: 'Tamaño global'
+  },
+  sidebar: {
+    logOut: 'Salir',
+    dashboard: 'Panel de control',
+    userProfile: '用户资料',
     github: 'Github',
     theme: 'Tema',
     size: 'Tamaño global'

@@ -1,5 +1,5 @@
 ## Introduction
-[Duck](https://github.com/Simplified-Mind/Duck) aims to become a production-ready full-stack solution for data analytics. 
+[Duck](https://github.com/Simplified-Mind/Duck) aims to become a production-ready full stack solution for python developer. 
 It is built on top of
 * [fastapi](https://github.com/tiangolo/fastapi)
 * [vue-element-admin](https://github.com/PanJiaChen/vue-element-admin)

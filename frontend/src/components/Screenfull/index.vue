@@ -48,13 +48,25 @@ export default {
 }
 </script>
 
-<style scoped>
-.screenfull-svg {
+<style lang="scss" scoped>
+.screenFull-container {
+  padding: 10px;
   display: inline-block;
+  width: 36px;
+  height: 36px;
   cursor: pointer;
-  fill: #5a5e66;;
-  width: 20px;
-  height: 20px;
-  vertical-align: 10px;
+  transition: 0.2s;
+
+  &:hover {
+    background-color: #001528;
+  }
+
+  .svg-icon {
+    vertical-align: middle;
+    width: 16px;
+    height: 16px;
+    fill: #fff;
+    margin-right: 0 !important;
+  }
 }
 </style>

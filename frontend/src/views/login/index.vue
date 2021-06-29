@@ -7,7 +7,7 @@
           class="logo"
           src="../../../public/static/images/logo.svg"
         >
-        <lang-select class="set-language" />
+        <lang-select v-if="internationalization" class="set-language" />
       </div>
 
       <el-form-item prop="username">
@@ -69,7 +69,8 @@ export default {
       passwordType: 'password',
       loading: false,
       showDialog: false,
-      redirect: undefined
+      redirect: undefined,
+      internationalization: process.env.VUE_APP_INTERNATIONALIZATION === 'true'
     }
   },
   watch: {

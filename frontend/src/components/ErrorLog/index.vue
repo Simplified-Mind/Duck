@@ -1,7 +1,7 @@
 <template>
   <div v-if="errorLogs.length>0">
     <el-badge :is-dot="true" style="line-height: 25px;margin-top: -5px;" @click.native="dialogTableVisible=true">
-      <el-button style="padding: 8px 10px;" size="small" type="danger">
+      <el-button style="padding: 6px 6px;" size="small" type="danger">
         <svg-icon icon-class="bug" />
       </el-button>
     </el-badge>
@@ -58,11 +58,32 @@ export default {
 }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 .message-title {
   font-size: 16px;
   color: #333;
   font-weight: bold;
   padding-right: 8px;
+}
+
+.errorLog-container {
+  padding: 10px;
+  display: inline-block;
+  cursor: pointer;
+  width: 36px;
+  height: 36px;
+  transition: 0.2s;
+
+  &:hover {
+    background-color: #001528;
+  }
+
+  .svg-icon {
+    vertical-align: middle;
+    width: 16px;
+    height: 16px;
+    fill: #fff;
+    margin-right: 0 !important;
+  }
 }
 </style>

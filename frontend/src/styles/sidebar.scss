@@ -3,18 +3,19 @@
   // 主体区域 Main container
   .main-container {
     min-height: 100%;
-    transition: margin-left .28s;
+    transition: margin-left 0.2s;
     margin-left: $sideBarWidth;
     position: relative;
   }
 
   // 侧边栏 Sidebar container
   .sidebar-container {
-    transition: width 0.28s;
+    transition: width 0.1s;
     width: $sideBarWidth !important;
+    background-color: $menuBg;
     height: 100%;
     position: fixed;
-    font-size: 0px;
+    font-size: 13px;
     top: 0;
     bottom: 0;
     left: 0;
@@ -23,12 +24,12 @@
 
     //reset element-ui css
     .horizontal-collapse-transition {
-      transition: 0s width ease-in-out, 0s padding-left ease-in-out, 0s padding-right ease-in-out;
+      transition: 0.1s width ease-in-out, 0.1s padding-left ease-in-out, 0.1s padding-right ease-in-out;
     }
 
     .scrollbar-wrapper {
       overflow-x: hidden !important;
-
+      margin-right: -80px !important;
       .el-scrollbar__view {
         height: 100%;
       }
@@ -59,9 +60,12 @@
     }
 
     .svg-icon {
-      margin-right: 16px;
+      margin-right: 12px;
     }
-
+    .sub-el-icon {
+        margin-right: 12px;
+        margin-left: -2px;
+    }
     .el-menu {
       border: none;
       height: 100%;
@@ -93,11 +97,11 @@
 
   .hideSidebar {
     .sidebar-container {
-      width: 54px !important;
+      width: 50px !important;
     }
 
     .main-container {
-      margin-left: 54px;
+      margin-left: 50px;
     }
 
     .svg-icon {
@@ -112,7 +116,11 @@
         padding: 0 !important;
 
         .svg-icon {
-          margin-left: 20px;
+          margin-left: 13px;
+        }
+
+        .sub-el-icon {
+          margin-left: 14px;
         }
       }
     }
@@ -124,7 +132,11 @@
         padding: 0 !important;
 
         .svg-icon {
-          margin-left: 20px;
+          margin-left: 15px;
+        }
+
+        .sub-el-icon {
+          margin-left: 14px;
         }
 
         .el-submenu__icon-arrow {
@@ -159,14 +171,14 @@
     }
 
     .sidebar-container {
-      transition: transform .28s;
+      transition: transform 0.2s;
       width: $sideBarWidth !important;
     }
 
     &.hideSidebar {
       .sidebar-container {
         pointer-events: none;
-        transition-duration: 0.3s;
+        transition-duration: 0.2s;
         transform: translate3d(-$sideBarWidth, 0, 0);
       }
     }
@@ -183,27 +195,41 @@
 
 // when menu collapsed
 .el-menu--vertical {
+  animation: 0.2s;
+  left: 45px !important;
+
   &>.el-menu {
     .svg-icon {
-      margin-right: 16px;
+      margin-right: 10px;
+    }
+
+    .sub-el-icon {
+        margin-right: 12px;
+        margin-left: -2px;
     }
   }
 
   .nest-menu .el-submenu>.el-submenu__title,
   .el-menu-item {
+    height: 30px;
+    line-height: 30px;
+
     &:hover {
       // you can use $subMenuHover
-      background-color: $menuHover !important;
+      background-color: #001528 !important;
     }
   }
 
   // the scroll bar appears when the subMenu is too long
   >.el-menu--popup {
     max-height: 100vh;
+    min-width: 150px;
     overflow-y: auto;
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
 
     &::-webkit-scrollbar-track-piece {
-      background: #d3dce6;
+      background: #009FDA;
     }
 
     &::-webkit-scrollbar {
@@ -211,8 +237,21 @@
     }
 
     &::-webkit-scrollbar-thumb {
-      background: #99a9bf;
+      background: #009FDA;
       border-radius: 20px;
     }
   }
+}
+
+.hideSidebar {
+    .el-scrollbar__view {
+        transition: transform 0.2s;
+        width: 50px;
+    }
+}
+
+.defaultMenu {
+    border: none;
+    padding-left: 4px;
+    background-color: #304156;
 }

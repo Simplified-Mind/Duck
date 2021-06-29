@@ -53,7 +53,7 @@ class Base(BaseSettings):
         }
     ]
 
-    ANONYMOUS: Optional[str] = b64encode(open(rf'{Path(__file__).parent.parent}\static\anonymous.jpg', 'rb').read())
+    ANONYMOUS: Optional[str] = b64encode(open(rf'{Path(__file__).parent.parent}\static\user.png', 'rb').read())
 
 
 class Development(Base):
@@ -82,4 +82,3 @@ class Settings:
 
 
 settings = Settings()
-
