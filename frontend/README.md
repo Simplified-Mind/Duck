@@ -1,10 +1,10 @@
 ## Configuration
 
 ### Settings
-#### Stateful
+#### State
 * frontend/src/settings.js
   * Configurations vary depending on the state
-#### Stateless
+#### Environment
 Same configurations will be applied to all states. 
 * frontend/.env.development
 * frontend/.env.production
