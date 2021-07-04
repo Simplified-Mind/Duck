@@ -1,10 +1,10 @@
 ## Configuration
 
 ### Settings
-#### State
+#### Mutable/Reactive 
 * frontend/src/settings.js
   * Configurations vary depending on the state
-#### Environment
+#### Immutable/Environment
 Same configurations will be applied to all states. 
 * frontend/.env.development
 * frontend/.env.production

@@ -1,33 +1,35 @@
 <template>
   <div v-if="errorLogs.length>0">
-    <el-badge :is-dot="true" style="line-height: 25px;margin-top: -5px;" @click.native="dialogTableVisible=true">
-      <el-button style="padding: 6px 6px;" size="small" type="danger">
-        <svg-icon icon-class="bug" />
-      </el-button>
+    <el-badge :value="errorLogs.length" type="warming" :hidden="errorLogs.length === 0" @click.native="dialogTableVisible=true">
+      <svg-icon icon-class="bug" />
     </el-badge>
 
-    <el-dialog :visible.sync="dialogTableVisible" title="Error Log" width="80%">
+    <el-dialog :visible.sync="dialogTableVisible" width="80%" append-to-body>
+      <div slot="title">
+        <span style="padding-right: 10px;">Error Log</span>
+        <el-button size="mini" type="primary" icon="el-icon-delete" @click="clearAll">Clear All</el-button>
+      </div>
       <el-table :data="errorLogs" border>
         <el-table-column label="Message">
-          <template slot-scope="scope">
+          <template slot-scope="{row}">
             <div>
               <span class="message-title">Msg:</span>
               <el-tag type="danger">
-                {{ scope.row.err.message }}
+                {{ row.err.message }}
               </el-tag>
             </div>
             <br>
             <div>
               <span class="message-title" style="padding-right: 10px;">Info: </span>
               <el-tag type="warning">
-                {{ scope.row.vm.$vnode.tag }} error in {{ scope.row.info }}
+                {{ row.vm.$vnode.tag }} error in {{ row.info }}
               </el-tag>
             </div>
             <br>
             <div>
               <span class="message-title" style="padding-right: 16px;">Url: </span>
               <el-tag type="success">
-                {{ scope.row.url }}
+                {{ row.url }}
               </el-tag>
             </div>
           </template>
@@ -54,24 +56,23 @@ export default {
     errorLogs() {
       return this.$store.getters.errorLogs
     }
+  },
+  methods: {
+    clearAll() {
+      this.dialogTableVisible = false
+      this.$store.dispatch('errorLog/clearErrorLog')
+    }
   }
 }
 </script>
 
 <style lang="scss" scoped>
-.message-title {
-  font-size: 16px;
-  color: #333;
-  font-weight: bold;
-  padding-right: 8px;
-}
-
 .errorLog-container {
   padding: 10px;
   display: inline-block;
-  cursor: pointer;
   width: 36px;
   height: 36px;
+  cursor: pointer;
   transition: 0.2s;
 
   &:hover {

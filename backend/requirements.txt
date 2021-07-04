@@ -1,7 +1,10 @@
+# Python==3.9.5
+aiofiles
 fastapi
 uvicorn
-pydantic
 pem
 python-jose
 pycryptodome
 python-multipart
+pywin32==225 # Please comment it out if you like to use different authentication method
+future
