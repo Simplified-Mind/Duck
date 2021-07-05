@@ -1,5 +1,5 @@
 <template>
-  <div v-if="errorLogs.length>0">
+  <div>
     <el-badge :value="errorLogs.length" type="warming" :hidden="errorLogs.length === 0" @click.native="dialogTableVisible=true">
       <svg-icon icon-class="bug" />
     </el-badge>
