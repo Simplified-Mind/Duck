@@ -11,6 +11,7 @@ body {
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
   font-family: Helvetica Neue, Helvetica, PingFang SC, Hiragino Sans GB, Microsoft YaHei, Arial, sans-serif;
+  color: #333;
 }
 
 label {
@@ -85,6 +86,10 @@ div:focus {
   display: block;
 }
 
+.inlineFlex {
+    display: inline-flex;
+}
+
 .clearfix {
   &:after {
     visibility: hidden;
@@ -132,6 +137,7 @@ code {
 //main-container全局样式
 .app-container {
   padding: 20px;
+  flex: 1 0 auto;
 }
 
 .components-container {
@@ -154,7 +160,7 @@ code {
   width: 100%;
   text-align: right;
   padding-right: 20px;
-  transition: 600ms ease position;
+  transition: 200ms ease position;
   background: linear-gradient(90deg, rgba(32, 182, 249, 1) 0%, rgba(32, 182, 249, 1) 0%, rgba(33, 120, 241, 1) 100%, rgba(33, 120, 241, 1) 100%);
 
   .subtitle {
@@ -198,4 +204,52 @@ code {
 
 .multiselect--active {
   z-index: 1000 !important;
+}
+
+.multiselect--active {
+    z-index: 1000 !important;
+}
+
+h1 {
+    font-size: 15px;
+    margin: 0;
+    font-weight: 400;
+}
+
+h3 {
+    margin: 0 0 10px;
+}
+
+.chart-container {
+    background-color: #fff;
+    padding: 20px 0;
+    margin-bottom: 20px;
+    -webkit-box-shadow: 1px 1px 1px 0 rgba(0, 0, 0, 0.1);
+    box-shadow: 1px 1px 1px rgba(0, 0, 0, .1);
+    border-radius: 3px;
+
+    &.fp {
+        padding: 20px;
+    }
+    &.black {
+        padding: 0;
+        background-color: #000;
+    }
+}
+
+.back-to-ceiling {
+    &:hover svg {
+        fill: #009FDA !important;
+    }
+}
+
+.footnote {
+    font-size: 12px;
+    margin: 0;
+}
+
+.lastupdated {
+    font-size: 12px;
+    margin-top: 20px;
+    color: #666;
 }

@@ -3,7 +3,7 @@
   // 主体区域 Main container
   .main-container {
     min-height: 100%;
-    transition: margin-left 0.2s;
+    transition: margin-left .2s;
     margin-left: $sideBarWidth;
     position: relative;
   }
@@ -12,7 +12,6 @@
   .sidebar-container {
     transition: width 0.1s;
     width: $sideBarWidth !important;
-    background-color: $menuBg;
     height: 100%;
     position: fixed;
     font-size: 13px;
@@ -30,9 +29,6 @@
     .scrollbar-wrapper {
       overflow-x: hidden !important;
       margin-right: -80px !important;
-      .el-scrollbar__view {
-        height: 100%;
-      }
     }
 
     .el-scrollbar__bar.is-vertical {
@@ -62,10 +58,12 @@
     .svg-icon {
       margin-right: 12px;
     }
+
     .sub-el-icon {
-        margin-right: 12px;
-        margin-left: -2px;
+      margin-right: 12px;
+      margin-left: -2px;
     }
+
     .el-menu {
       border: none;
       height: 100%;
@@ -135,7 +133,7 @@
           margin-left: 15px;
         }
 
-        .sub-el-icon {
+        .svg-el-icon {
           margin-left: 14px;
         }
 
@@ -171,7 +169,7 @@
     }
 
     .sidebar-container {
-      transition: transform 0.2s;
+      transition: transform .2s;
       width: $sideBarWidth !important;
     }
 
@@ -204,8 +202,8 @@
     }
 
     .sub-el-icon {
-        margin-right: 12px;
-        margin-left: -2px;
+      margin-right: 12px;
+      margin-left: -2px;
     }
   }
 
@@ -216,7 +214,7 @@
 
     &:hover {
       // you can use $subMenuHover
-      background-color: #001528 !important;
+      background-color: $menuHover !important;
     }
   }
 
@@ -244,13 +242,13 @@
 }
 
 .hideSidebar {
-    .el-scrollbar__view {
-        transition: transform 0.2s;
-        width: 50px;
-    }
+  .el-scrollbar__view {
+    transition: transform 0.2s;
+    width: 50px;
+  }
 }
 
-.defaultMenu {
+.default-menu {
     border: none;
     padding-left: 4px;
     background-color: #304156;

@@ -1,6 +1,6 @@
 <template>
-  <div>
-    <svg-icon :icon-class="isFullscreen?'exit-fullscreen':'fullscreen'" @click="click" />
+  <div @click="click">
+    <svg-icon :icon-class="isFullscreen?'exit-fullscreen':'fullscreen'" />
   </div>
 </template>
 
@@ -49,7 +49,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.screenFull-container {
+.screenfull-container {
   padding: 10px;
   display: inline-block;
   width: 36px;
@@ -68,5 +68,6 @@ export default {
     fill: #fff;
     margin-right: 0 !important;
   }
+
 }
 </style>

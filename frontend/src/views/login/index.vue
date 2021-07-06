@@ -5,9 +5,8 @@
       <div class="title-container">
         <img
           class="logo"
-          src="../../../public/static/images/logo.svg"
+          src="../../../public/logo.svg"
         >
-        <lang-select v-if="internationalization" class="set-language" />
       </div>
 
       <el-form-item prop="username">
@@ -17,7 +16,7 @@
         <el-input
           ref="username"
           v-model="loginForm.username"
-          :placeholder="$t('login.username')"
+          placeholder="username"
           name="username"
           type="text"
           auto-complete="on"
@@ -33,7 +32,7 @@
           ref="password"
           v-model="loginForm.password"
           :type="passwordType"
-          :placeholder="$t('login.password')"
+          placeholder="password"
           name="password"
           auto-complete="on"
           @keyup.enter.native="handleLogin"
@@ -43,24 +42,20 @@
         </span>
       </el-form-item>
 
-      <el-button :loading="loading" type="primary" style="width:100%;margin-bottom:30px;" @click.native.prevent="handleLogin">
-        {{ $t('login.logIn') }}
-      </el-button>
+      <el-button :loading="loading" type="primary" style="width:100%;margin-bottom:30px;" @click.native.prevent="handleLogin">Login</el-button>
     </el-form>
   </div>
 </template>
 
 <script>
-import LangSelect from '@/components/LangSelect'
 
 export default {
   name: 'Login',
-  components: { LangSelect },
   data() {
     return {
       loginForm: {
-        username: '',
-        password: ''
+        username: 'admin',
+        password: '111111'
       },
       loginRules: {
         username: [{ required: true, trigger: 'blur' }],
@@ -69,8 +64,7 @@ export default {
       passwordType: 'password',
       loading: false,
       showDialog: false,
-      redirect: undefined,
-      internationalization: process.env.VUE_APP_INTERNATIONALIZATION === 'true'
+      redirect: undefined
     }
   },
   watch: {
@@ -81,12 +75,18 @@ export default {
       immediate: true
     }
   },
+  created() {
+    // window.addEventListener('storage', this.afterQRScan)
+  },
   mounted() {
     if (this.loginForm.username === '') {
       this.$refs.username.focus()
     } else if (this.loginForm.password === '') {
       this.$refs.password.focus()
     }
+  },
+  destroyed() {
+    // window.removeEventListener('storage', this.afterQRScan)
   },
   methods: {
     showPwd() {
@@ -122,55 +122,6 @@ export default {
 </script>
 
 <style lang="scss">
-
-$bg:#283443;
-$light_gray:#fff;
-$cursor: #fff;
-$input_bg: #f0f2f5;
-$input_cursor:#2d3a4b;
-
-@supports (-webkit-mask: none) and (not (cater-color: $cursor)) {
-  .login-container .el-input input {
-    color: $bg;
-  }
-}
-
-/* reset element-ui css */
-.login-container {
-  .el-input {
-    display: inline-block;
-    height: 47px;
-    width: 85%;
-
-    input {
-      background: transparent;
-      border: 0px;
-      -webkit-appearance: none;
-      border-radius: 0px;
-      padding: 12px 5px 12px 15px;
-      color: $bg;
-      height: 47px;
-      caret-color: $bg;
-      font-size: 16px;
-
-      &:-webkit-autofill {
-        -webkit-box-shadow: 0 0 0px 1000px $input_bg inset !important;
-        box-shadow: 0 0 0px 1000px $input_bg inset !important;
-        -webkit-text-fill-color: $input_cursor !important;
-      }
-    }
-  }
-
-  .el-form-item {
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    background: #f0f2f5;
-    border-radius: 8px;
-    color: #454545;
-  }
-}
-</style>
-
-<style lang="scss" scoped>
 $bg:#2d3a4b;
 $dark_gray:#2d3a4b;
 $light_gray:#eee;
@@ -190,7 +141,7 @@ $input_bg: #f0f2f5;
   min-height: 100%;
   width: 100%;
   overflow: hidden;
-  background-image: url("../../../public/static/images/bg.jpeg");
+  background-image: url("../../../public/bg.jpeg");
   z-index: -9000 !important;
   background-size: cover !important;
   background-repeat: no-repeat;
@@ -213,18 +164,6 @@ $input_bg: #f0f2f5;
     box-shadow: 1px 1px 2px rgba(0,0,0,0.5);
   }
 
-  .tips {
-    font-size: 14px;
-    color: #fff;
-    margin-bottom: 10px;
-
-    span {
-      &:first-of-type {
-        margin-right: 16px;
-      }
-    }
-  }
-
   .svg-container {
     padding: 6px 5px 6px 15px;
     color: $bg;
@@ -243,23 +182,18 @@ $input_bg: #f0f2f5;
       margin-left: auto;
       margin-right: auto;
     }
-
     .title {
-      font-size: 26px;
+      font-size: 20px;
       color: $bg;
       margin: 0px auto 20px auto;
       text-align: center;
       font-weight: 300;
     }
+  }
 
-    .set-language {
-      color: #ff0000;
-      position: absolute;
-      top: 3px;
-      font-size: 18px;
-      right: 0px;
-      cursor: pointer;
-    }
+  .login-logo {
+    max-width: 80%;
+    margin-bottom: 30px;
   }
 
   .show-pwd {
@@ -273,6 +207,18 @@ $input_bg: #f0f2f5;
 
     &:hover {
       color: $primary;
+    }
+  }
+
+  .thirdparty-button {
+    position: absolute;
+    right: 0;
+    bottom: 6px;
+  }
+
+  @media only screen and (max-width: 470px) {
+    .thirdparty-button {
+      display: none;
     }
   }
 

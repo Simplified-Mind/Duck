@@ -68,15 +68,6 @@ export default {
   navbar: {
     logOut: 'Log Out',
     dashboard: 'Dashboard',
-    userProfile: 'User Profile',
-    github: 'Github',
-    theme: 'Theme',
-    size: 'Global Size'
-  },
-  sidebar: {
-    logOut: 'Log Out',
-    dashboard: 'Dashboard',
-    userProfile: 'User Profile',
     github: 'Github',
     theme: 'Theme',
     size: 'Global Size'

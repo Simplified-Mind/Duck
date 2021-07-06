@@ -4,33 +4,30 @@
     <sidebar class="sidebar-container" />
     <div :class="{hasTagsView:needTagsView}" class="main-container">
       <div :class="{'fixed-header':fixedHeader}">
-        <navbar />
         <tags-view v-if="needTagsView" />
       </div>
       <app-main />
-      <!--      <right-panel v-if="showSettings">-->
-      <!--        <settings />-->
-      <!--      </right-panel>-->
+      <right-panel v-if="showSettings">
+        <settings />
+      </right-panel>
     </div>
   </div>
 </template>
 
 <script>
-// import RightPanel from '@/components/RightPanel'
-// import { Navbar, Sidebar, AppMain, TagsView, Settings } from './components'
-import { Navbar, Sidebar, AppMain, TagsView } from './components'
+import RightPanel from '@/components/RightPanel'
+import { Sidebar, AppMain, TagsView, Settings } from './components'
 import ResizeMixin from './mixin/ResizeHandler'
 import { mapState } from 'vuex'
 
 export default {
   name: 'Layout',
   components: {
-    // RightPanel,
-    Navbar,
+    RightPanel,
     Sidebar,
     AppMain,
-    TagsView
-    // Settings
+    TagsView,
+    Settings
   },
   mixins: [ResizeMixin],
   computed: {
@@ -76,7 +73,7 @@ export default {
 
   .drawer-bg {
     background: #000;
-    opacity: 0.3;
+    opacity: 0.5;
     width: 100%;
     top: 0;
     height: 100%;
@@ -90,11 +87,11 @@ export default {
     right: 0;
     z-index: 9;
     width: calc(100% - #{$sideBarWidth});
-    transition: width 0.28s;
+    transition: width 0.1s;
   }
 
   .hideSidebar .fixed-header {
-    width: calc(100% - 54px)
+    width: calc(100% - 50px)
   }
 
   .mobile .fixed-header {

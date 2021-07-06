@@ -68,15 +68,6 @@ export default {
   navbar: {
     logOut: '退出登录',
     dashboard: '首页',
-    userProfile: '用户资料',
-    github: '项目地址',
-    theme: '换肤',
-    size: '布局大小'
-  },
-  sidebar: {
-    logOut: '退出登录',
-    dashboard: '首页',
-    userProfile: '用户资料',
     github: '项目地址',
     theme: '换肤',
     size: '布局大小'

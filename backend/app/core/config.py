@@ -7,7 +7,7 @@ from pydantic import AnyHttpUrl, BaseSettings
 
 
 class Base(BaseSettings):
-    PROJECT_NAME: Optional[str] = 'Analytics'
+    PROJECT_NAME: Optional[str] = 'Duck Analytics'
     HOST: Optional[str] = '0.0.0.0'
     PORT: Optional[int] = 8888
     VERSION: Optional[str] = '0.0.1'
@@ -57,15 +57,15 @@ class Base(BaseSettings):
 
 
 class Development(Base):
-    BASE_API: str = '/dev-api/v1'
+    BASE_API: str = '/dev-api'
 
 
 class Staging(Base):
-    BASE_API = '/stage-api/v1'
+    BASE_API = '/stage-api'
 
 
 class Production(Base):
-    BASE_API = '/prod-api/v1'
+    BASE_API = '/prod-api'
 
 
 @dataclass

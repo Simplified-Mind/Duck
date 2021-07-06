@@ -9,34 +9,24 @@
         :to="{ path: tag.path, query: tag.query, fullPath: tag.fullPath }"
         tag="span"
         class="tags-view-item"
-        @click.middle.native="closeSelectedTag(tag)"
+        @click.middle.native="!tag.meta.affix ? closeSelectedTag(tag): ''"
         @contextmenu.prevent.native="openMenu(tag,$event)"
       >
-        {{ generateTitle(tag.title) }}
+        {{ tag.title }}
         <span v-if="!tag.meta.affix" class="el-icon-close" @click.prevent.stop="closeSelectedTag(tag)" />
       </router-link>
     </scroll-pane>
     <ul v-show="visible" :style="{left:left+'px',top:top+'px'}" class="contextmenu">
-      <li @click="refreshSelectedTag(selectedTag)">
-        {{ $t('tagsView.refresh') }}
-      </li>
-      <li v-if="!(selectedTag.meta&&selectedTag.meta.affix)" @click="closeSelectedTag(selectedTag)">
-        {{
-          $t('tagsView.close') }}
-      </li>
-      <li @click="closeOthersTags">
-        {{ $t('tagsView.closeOthers') }}
-      </li>
-      <li @click="closeAllTags(selectedTag)">
-        {{ $t('tagsView.closeAll') }}
-      </li>
+      <li @click="refreshSelectedTag(selectedTag)">Refresh</li>
+      <li v-if="!(selectedTag.meta&&selectedTag.meta.affix)" @click="closeSelectedTag(selectedTag)">Close</li>
+      <li @click="closeOthersTags">Close Others</li>
+      <li @click="closeAllTags(selectedTag)">Close All</li>
     </ul>
   </div>
 </template>
 
 <script>
 import ScrollPane from './ScrollPane'
-import { generateTitle } from '@/utils/i18n'
 import path from 'path'
 
 export default {
@@ -76,7 +66,6 @@ export default {
     this.addTags()
   },
   methods: {
-    generateTitle, // generateTitle by vue-i18n
     isActive(route) {
       return route.path === this.$route.path
     },
@@ -198,52 +187,44 @@ export default {
 
 <style lang="scss" scoped>
 .tags-view-container {
-  height: 34px;
+  height: 50px;
   width: 100%;
-  background: #fff;
-  border-bottom: 1px solid #d8dce5;
-  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, .12), 0 0 3px 0 rgba(0, 0, 0, .04);
+  background: #1f2d3d;
+
   .tags-view-wrapper {
     .tags-view-item {
       display: inline-block;
       position: relative;
       cursor: pointer;
-      height: 26px;
-      line-height: 26px;
-      border: 1px solid #d8dce5;
-      color: #495060;
-      background: #fff;
-      padding: 0 8px;
-      font-size: 12px;
-      margin-left: 5px;
-      margin-top: 4px;
+      height: 32px;
+      line-height: 32px;
+      color: #eef1f6;
+      background: #304156;
+      padding: 0 15px;
+      font-size: 14px;
+      margin-left: 3px;
+      margin-top: 18px;
+      border-top-left-radius: 5px;
+      border-top-right-radius: 5px;
+      transition: 0.2s;
       &:first-of-type {
-        margin-left: 15px;
+        margin-left: 0px;
       }
       &:last-of-type {
         margin-right: 15px;
       }
       &.active {
-        background-color: #42b983;
+        background-color: #009FDA;
         color: #fff;
-        border-color: #42b983;
-        &::before {
-          content: '';
-          background: #fff;
-          display: inline-block;
-          width: 8px;
-          height: 8px;
-          border-radius: 50%;
-          position: relative;
-          margin-right: 2px;
-        }
+        border-color: #009FDA;
+        cursor: default;
       }
     }
   }
   .contextmenu {
     margin: 0;
     background: #fff;
-    z-index: 100;
+    z-index: 6000;
     position: absolute;
     list-style-type: none;
     padding: 5px 0;
@@ -269,21 +250,23 @@ export default {
 .tags-view-wrapper {
   .tags-view-item {
     .el-icon-close {
-      width: 16px;
-      height: 16px;
-      vertical-align: 2px;
+      width: 18px;
+      height: 18px;
+      vertical-align: -4px;
       border-radius: 50%;
       text-align: center;
-      transition: all .3s cubic-bezier(.645, .045, .355, 1);
+      transition: all .2s cubic-bezier(.645, .045, .355, 1);
       transform-origin: 100% 50%;
+      font-size: 18px;
+      margin-right: -6px;
       &:before {
         transform: scale(.6);
         display: inline-block;
-        vertical-align: -3px;
+        vertical-align: 2px;
       }
       &:hover {
-        background-color: #b4bccc;
-        color: #fff;
+        background-color: #fff;
+        color: #009FDA;
       }
     }
   }
