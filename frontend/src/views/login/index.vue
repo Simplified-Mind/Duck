@@ -4,7 +4,7 @@
 
       <div class="title-container">
         <img
-          class="logo"
+          class="login-logo"
           src="../../../public/login-logo.svg"
         >
       </div>
@@ -17,13 +17,14 @@
           ref="username"
           v-model="loginForm.username"
           class="inputTransparent"
-          placeholder="username"
+          placeholder="Username"
           name="username"
           type="text"
+          tabindex="1"
           auto-complete="on"
         />
       </el-form-item>
-      <el-tooltip v-model="capsTooltip" content="Caps lock is On" placement="right" manual>
+      <el-tooltip v-model="capsTooltip" content="Caps lock is on" placement="right" manual>
         <el-form-item prop="password">
           <span class="svg-container">
             <svg-icon icon-class="password" />
@@ -33,8 +34,9 @@
             ref="password"
             v-model="loginForm.password"
             :type="passwordType"
-            placeholder="password"
+            placeholder="Password"
             name="password"
+            tabindex="2"
             auto-complete="on"
             @keyup.native="checkCapslock"
             @blur="capsTooltip === false"
@@ -45,7 +47,7 @@
           </span>
         </el-form-item>
       </el-tooltip>
-      <el-button :loading="loading" type="primary" style="width:100%;margin-bottom:30px;" @click.native.prevent="handleLogin">Login</el-button>
+      <el-button :loading="loading" type="primary" style="width:100%;" @click.native.prevent="handleLogin">Login</el-button>
     </el-form>
   </div>
 </template>
@@ -75,13 +77,14 @@ export default {
   watch: {
     $route: {
       handler: function(route) {
-        this.redirect = route.query && route.query.redirect
+        const query = route.query
+        if (query) {
+          this.redirect = query.redirect
+          this.otherQuery = this.getOtherQuery(query)
+        }
       },
       immediate: true
     }
-  },
-  created() {
-    // window.addEventListener('storage', this.afterQRScan)
   },
   mounted() {
     if (this.loginForm.username === '') {
@@ -89,9 +92,6 @@ export default {
     } else if (this.loginForm.password === '') {
       this.$refs.password.focus()
     }
-  },
-  destroyed() {
-    // window.removeEventListener('storage', this.afterQRScan)
   },
   methods: {
     checkCapslock(e) {
@@ -114,14 +114,13 @@ export default {
           this.loading = true
           this.$store.dispatch('user/login', this.loginForm)
             .then(() => {
-              this.$router.push({ path: this.redirect || '/' })
+              this.$router.push({ path: this.redirect || '/', query: this.otherQuery })
               this.loading = false
             })
             .catch(() => {
               this.loading = false
             })
         } else {
-          console.log('error submit!!')
           return false
         }
       })
@@ -141,9 +140,16 @@ export default {
 <style lang="scss">
 $bg:#2d3a4b;
 $dark_gray:#2d3a4b;
-$light_gray:#eee;
+$light_gray:#fff;
 $primary: #0065BD;
 $input_bg: #f0f2f5;
+$input_cursor:#2d3a4b;
+
+@supports (-webkit-mask: none) and (not (cater-color: $light_gray)) {
+  .login-container .el-input input {
+    color: $bg;
+  }
+}
 
 @keyframes pulse {
   from {
@@ -167,6 +173,37 @@ $input_bg: #f0f2f5;
   background-blend-mode: soft-light;
   -webkit-animation: pulse 8s ease-in-out infinite alternate;
   animation: pulse 4s ease-in-out infinite alternate;
+
+  .el-input {
+    display: inline-block;
+    height: 47px;
+    width: 85%;
+
+    input {
+      background: transparent;
+      border: 0px;
+      -webkit-appearance: none;
+      border-radius: 0px;
+      padding: 12px 5px 12px 15px;
+      color: $bg;
+      height: 47px;
+      caret-color: $bg;
+      font-size: 16px;
+
+      &:-webkit-autofill {
+        -webkit-box-shadow: 0 0 0px 1000px $input_bg inset !important;
+        box-shadow: 0 0 0px 1000px $input_bg inset !important;
+        -webkit-text-fill-color: $input_cursor !important;
+      }
+    }
+  }
+
+  .el-form-item {
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: #f0f2f5;
+    border-radius: 8px;
+    color: #454545;
+  }
 
   .login-form {
     position: relative;
@@ -192,10 +229,9 @@ $input_bg: #f0f2f5;
   .title-container {
     position: relative;
 
-    .logo{
+    .login-logo{
       display: block;
-      width: 30%;
-      height: 30%;
+      max-width: 50%;
       margin-left: auto;
       margin-right: auto;
     }
@@ -206,11 +242,6 @@ $input_bg: #f0f2f5;
       text-align: center;
       font-weight: 300;
     }
-  }
-
-  .login-logo {
-    max-width: 80%;
-    margin-bottom: 30px;
   }
 
   .show-pwd {
@@ -224,18 +255,6 @@ $input_bg: #f0f2f5;
 
     &:hover {
       color: $primary;
-    }
-  }
-
-  .thirdparty-button {
-    position: absolute;
-    right: 0;
-    bottom: 6px;
-  }
-
-  @media only screen and (max-width: 470px) {
-    .thirdparty-button {
-      display: none;
     }
   }
 
