@@ -4,6 +4,8 @@ import Cookies from 'js-cookie'
 
 import 'normalize.css/normalize.css' // A modern alternative to CSS resets
 
+import '@/vendor/GoogleAnalytics'
+import '@/vendor/VxeTable'
 import Element from 'element-ui'
 import './styles/element-variables.scss'
 

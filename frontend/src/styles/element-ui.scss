@@ -89,6 +89,7 @@
 }
 
 .el-submenu__title {
+    font-size: 13px;
     height: 40px;
     line-height: 40px;
 }
@@ -295,4 +296,8 @@
 .submenu-title-noDropdown {
     padding-left: 12px !important;
     color: #fff !important;
+}
+
+.el-menu-item {
+    font-size: 13px;
 }

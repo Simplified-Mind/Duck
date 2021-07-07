@@ -71,6 +71,20 @@ export const constantRoutes = [
     hidden: true
   },
   {
+    path: '/error',
+    component: Layout,
+    redirect: '/error/log',
+    children: [
+      {
+        path: 'log',
+        component: () => import('@/views/errorPage/ErrorLogs'),
+        name: 'ErrorLog',
+        meta: { title: 'Error Log', noCache: true }
+      }
+    ],
+    hidden: true
+  },
+  {
     path: '',
     component: Layout,
     redirect: 'dashboard',
@@ -216,45 +230,6 @@ export const asyncRoutes = [
         component: () => import('@/views/tab/index'),
         name: 'Tab',
         meta: { title: 'tab', icon: 'tab' }
-      }
-    ]
-  },
-
-  {
-    path: '/error',
-    component: Layout,
-    redirect: 'noredirect',
-    name: 'ErrorPages',
-    meta: {
-      title: 'errorPages',
-      icon: '404'
-    },
-    children: [
-      {
-        path: '401',
-        component: () => import('@/views/errorPage/401'),
-        name: 'Page401',
-        meta: { title: 'page401', noCache: true }
-      },
-      {
-        path: '404',
-        component: () => import('@/views/errorPage/404'),
-        name: 'Page404',
-        meta: { title: 'page404', noCache: true }
-      }
-    ]
-  },
-
-  {
-    path: '/error-log',
-    component: Layout,
-    redirect: 'noredirect',
-    children: [
-      {
-        path: 'log',
-        component: () => import('@/views/errorLog/index'),
-        name: 'ErrorLog',
-        meta: { title: 'errorLog', icon: 'bug' }
       }
     ]
   },
