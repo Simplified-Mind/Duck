@@ -5,7 +5,7 @@
       <div class="title-container">
         <img
           class="logo"
-          src="../../../public/logo.svg"
+          src="../../../public/login-logo.svg"
         >
       </div>
 
@@ -16,32 +16,35 @@
         <el-input
           ref="username"
           v-model="loginForm.username"
+          class="inputTransparent"
           placeholder="username"
           name="username"
           type="text"
           auto-complete="on"
         />
       </el-form-item>
-
-      <el-form-item prop="password">
-        <span class="svg-container">
-          <svg-icon icon-class="password" />
-        </span>
-        <el-input
-          :key="passwordType"
-          ref="password"
-          v-model="loginForm.password"
-          :type="passwordType"
-          placeholder="password"
-          name="password"
-          auto-complete="on"
-          @keyup.enter.native="handleLogin"
-        />
-        <span class="show-pwd" @click="showPwd">
-          <svg-icon :icon-class="passwordType === 'password' ? 'eye' : 'eye-open'" />
-        </span>
-      </el-form-item>
-
+      <el-tooltip v-model="capsTooltip" content="Caps lock is On" placement="right" manual>
+        <el-form-item prop="password">
+          <span class="svg-container">
+            <svg-icon icon-class="password" />
+          </span>
+          <el-input
+            :key="passwordType"
+            ref="password"
+            v-model="loginForm.password"
+            :type="passwordType"
+            placeholder="password"
+            name="password"
+            auto-complete="on"
+            @keyup.native="checkCapslock"
+            @blur="capsTooltip === false"
+            @keyup.enter.native="handleLogin"
+          />
+          <span class="show-pwd" @click="showPwd">
+            <svg-icon :icon-class="passwordType === 'password' ? 'eye' : 'eye-open'" />
+          </span>
+        </el-form-item>
+      </el-tooltip>
       <el-button :loading="loading" type="primary" style="width:100%;margin-bottom:30px;" @click.native.prevent="handleLogin">Login</el-button>
     </el-form>
   </div>
@@ -62,9 +65,11 @@ export default {
         password: [{ required: true, trigger: 'blur' }]
       },
       passwordType: 'password',
+      capsTooltip: false,
       loading: false,
       showDialog: false,
-      redirect: undefined
+      redirect: undefined,
+      otherQuery: {}
     }
   },
   watch: {
@@ -89,6 +94,10 @@ export default {
     // window.removeEventListener('storage', this.afterQRScan)
   },
   methods: {
+    checkCapslock(e) {
+      const { key } = e
+      this.capsTooltip = key && key.length === 1 && (key >= 'A' && key <= 'Z')
+    },
     showPwd() {
       if (this.passwordType === 'password') {
         this.passwordType = ''
@@ -116,6 +125,14 @@ export default {
           return false
         }
       })
+    },
+    getOtherQuery(query) {
+      return Object.keys(query).reduce((acc, cur) => {
+        if (cur !== 'redirect') {
+          acc[cur] = query[cur]
+        }
+        return acc
+      }, {})
     }
   }
 }
