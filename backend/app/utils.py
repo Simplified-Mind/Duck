@@ -1,8 +1,9 @@
 import pandas as pd
-from typing import Optional, Literal, Union, List, Callable, Any, Dict
+from collections import OrderedDict
+from typing import Optional, Literal, Union, List, Callable, Any, Hashable, Iterable, Tuple
 from dataclasses import dataclass
 from fastapi import HTTPException, status
-from functools import wraps
+from functools import wraps, partial
 from traceback import format_exc
 
 ALIGN = Literal['left', 'center', 'right']
@@ -68,11 +69,69 @@ class Grid:
     edit_config: Optional[dict] = None
 
 
-def get_grid_config(df: pd.DataFrame) -> Dict[str, List[dict]]:
+class Node(dict):
+    def __init__(self, uid: Hashable):
+        self._parent = None            # pointer to parent Node
+        self['field'] = uid            # keep reference to uid
+        self['children'] = []          # collection of pointers to child Nodes
+
+    @property
+    def parent(self):
+        return self._parent            # return the object at the _parent pointer
+
+    @parent.setter
+    def parent(self, node):
+        self._parent = node
+        node['children'].append(self)  # add this node to parent's list of children
+
+
+def build(pairs: Iterable[Tuple[Hashable, Hashable]]) -> dict:
+    tree = {}
+    for pid, uid in pairs:          # check if the node was already added, else add
+        child = tree.get(uid)
+        if child is None:
+            child = Node(uid)       # create child node
+            tree[uid] = child       # add the node to the tree, using the uid as key
+
+        if uid != pid:
+            # set node.parent pointer to where the parent is
+            parent = tree.get(pid)
+            if parent is None:
+                parent = Node(pid)  # create parent if missing
+                tree[pid] = parent
+            child.parent = parent
+    return tree
+
+
+def get_pairs(lst: list, n: int) -> List[Tuple[Hashable, Hashable]]:
+    step = 2
+    pairs = OrderedDict()
+    for x in lst:
+        for i in range(n - 1):
+            pairs.update({x[i: i + step: 1]: None})
+
+    return list(pairs)
+
+
+def grid_config(func: Optional[Callable] = None, **opts) -> dict:
     # Convert dataframe to vxe-grid columns and data objects
-    columns = df.columns.tolist()
-    data = df.to_dict('records')
-    return dict(columns=columns, data=data)
+    if func is None:
+        return partial(grid_config, **opts)
+
+    def get_columns(df: pd.DataFrame) -> dict:
+        target = df.columns
+        top = target.get_level_values(0).unique()
+        pairs = get_pairs(target.to_flat_index(), target.nlevels)
+        result = build(pairs)
+        return [result[x] for x in top]
+
+    @wraps(func)
+    def wrapper(*args, **kwargs) -> dict:
+        df = func(*args, **kwargs)
+        columns = get_columns(df)
+        return dict(columns=columns)
+
+    return wrapper
 
 
 def catch(func: Callable) -> Any:
