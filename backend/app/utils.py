@@ -1,7 +1,7 @@
 import pandas as pd
 from collections import OrderedDict
-from typing import Optional, Literal, Union, List, Callable, Any, Hashable, Iterable, Tuple
-from dataclasses import dataclass
+from typing import Optional, Literal, Union, List, Callable, Any, Hashable, Iterable, Tuple, Set
+from dataclasses import dataclass, asdict
 from fastapi import HTTPException, status
 from functools import wraps, partial
 from traceback import format_exc
@@ -72,7 +72,11 @@ class Grid:
 class Node(dict):
     def __init__(self, uid: Hashable):
         self._parent = None            # pointer to parent Node
-        self['field'] = uid            # keep reference to uid
+
+        # keep reference to uid
+        self['field'] = uid
+        self['title'] = uid
+
         self['children'] = []          # collection of pointers to child Nodes
 
     @property
@@ -82,6 +86,7 @@ class Node(dict):
     @parent.setter
     def parent(self, node):
         self._parent = node
+        self['field'] = f'{node["field"]}@{self["field"]}'
         node['children'].append(self)  # add this node to parent's list of children
 
 
@@ -113,23 +118,48 @@ def get_pairs(lst: list, n: int) -> List[Tuple[Hashable, Hashable]]:
     return list(pairs)
 
 
-def grid_config(func: Optional[Callable] = None, **opts) -> dict:
+def grid_config(func: Optional[Callable] = None, index: Optional[bool] = True, **opts) -> dict:
     # Convert dataframe to vxe-grid columns and data objects
     if func is None:
-        return partial(grid_config, **opts)
+        return partial(grid_config, index=index, **opts)
 
-    def get_columns(df: pd.DataFrame) -> dict:
-        target = df.columns
-        top = target.get_level_values(0).unique()
-        pairs = get_pairs(target.to_flat_index(), target.nlevels)
-        result = build(pairs)
-        return [result[x] for x in top]
+    def get_content(df: pd.DataFrame, names: Optional[Set[str]] = None) -> Tuple[List[dict]]:
+        n = df.columns.nlevels
+        merge_cells = []
+        if n > 1:
+            columns = []
+            for i, (x, y) in enumerate(df.groupby(axis=1, level=0, sort=False)):
+                pairs = get_pairs(y.columns.to_flat_index(), n)
+                tree = build(pairs)
+                result = tree[x]
+
+                if names and set(x).intersection(names):
+                    result['title'] = ''
+
+                    # groupby consecutive values
+                    merge_cells += [
+                        {'row': b.index.min(), 'col': i, 'rowspan': b.size, 'colspan': 1}
+                            for a, b in y.groupby([(y[x] != y[x].shift()).cumsum()])
+                    ]
+
+                columns.append(result)
+            df.columns = ['@'.join(x) for x in df.columns.to_flat_index()]
+        else:
+            columns = [{'title': x, 'field': x} for x in df.columns]
+
+        data = df.to_dict('records')
+        return columns, data, merge_cells
 
     @wraps(func)
     def wrapper(*args, **kwargs) -> dict:
         df = func(*args, **kwargs)
-        columns = get_columns(df)
-        return dict(columns=columns)
+        names = None
+        if index:
+            names = set(df.index.names)
+            df = df.reset_index()
+
+        columns, data, merge_cells = get_content(df, names)
+        return Grid(columns=columns, data=data, merge_cells=merge_cells, **opts)
 
     return wrapper
 
